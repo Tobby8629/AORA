@@ -38,6 +38,7 @@ import React from 'react'
 import { Tabs } from 'expo-router'
 import {Tab_screen } from '../../constants/Screen'
 import TabIcon from '@/components/TabIcon'
+import { StatusBar } from 'expo-status-bar'
 
 
 const _layout = () => {
@@ -65,6 +66,7 @@ const _layout = () => {
       ))}
         
       </Tabs>
+      <StatusBar style='light'/>
     </>
   )
 }

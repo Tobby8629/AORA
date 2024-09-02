@@ -5,10 +5,20 @@ module.exports = {
   presets: [require("nativewind/preset")],
   theme: {
     extend: {
+      keyframes: {
+        spinner: {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' },
+        }
+      },
+      animation: {
+        spinner: 'spinner 2s ease-in-out infinite',
+      },
       colors: {
         "pry_black": "#161622",
         semi_black: "#232533",
-        gold: "#FFA300"
+        gold: "#FFA300",
+        whitish_gray: "#CDCDE0",
       },
       fontFamily: {
         pthin: ["Poppins-Thin", "sans-serif"],

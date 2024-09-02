@@ -1,45 +1,71 @@
-import { View, Text, SafeAreaView, ScrollView, Image } from 'react-native'
-import React, { useState } from 'react'
+import { View, Text, SafeAreaView, ScrollView, Image, Alert, TouchableOpacity } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import Input from '@/components/Input'
 import icons from '@/constants/icons'
-import images from '@/constants/images'
-import Button from '@/components/Button'
+import { getCurrentUser, Login, Logout, Register } from '@/lib/AppWrite'
 import { Link, useRouter } from 'expo-router'
-
+import Layout from '@/components/Onboarding/Layout'
 
 const signIn = () => {
   const route = useRouter()
-  const [showpassword, setshowpassword] = useState(false)
+  const [userdata, setuserdata] = useState({email:"", password:""})
+  const [isloading, setisloading] = useState(false)
+  const [showpassword, setshowpassword] = useState(true)
+  
   const toggleshow = () => {
     setshowpassword(!showpassword)
-  }  
+  } 
+
+  const handlechange = (value: string, id: string) => {
+    setuserdata({...userdata, [id]: value})
+  } 
+  
+  const Onsubmit = async () => {
+    setisloading(true)
+    if(userdata.email==="" || userdata.password===""){
+      Alert.alert("error", "please fill all input")
+      setisloading(false)
+      return
+    }
+    try{
+      const submitdata = await Login(userdata.email, userdata.password)
+      submitdata && route.replace("/(tabs)/Home")
+    }
+    catch(err:any){
+      Alert.alert(err.message)
+    }
+    finally {
+      setisloading(false)
+    } 
+    
+  }
+
   return (
-    <SafeAreaView className='bg-pry_black h-full'>
-      <ScrollView>
-        <View className=' min-h-[85vh] justify-center w-full  p-5'>
-          <Image source={images.logo} className='w-[115px] h-[34px]' resizeMode='contain'/>
-          <Text className='my-10 text-3xl text-white font-pregular'>Sign In</Text>
-          <Input placeholder='your unique username' title='username'/> 
-          <Input placeholder='password'
-            title= "password" 
-            icon={showpassword ? icons.eye : icons.eyeHide} 
-            iconStyle='w-[20px] h-[20px]'
-            toggleshow={toggleshow}
-            show = {showpassword}
-          />
-          <View className=' items-end'>
-            <Text className='text-white font-plight font-normal'>Forget password</Text>
-          </View>
-          <Button text='sign up' handlePress={()=> route.replace("/(auth)/signUp")}/>
-          <View>
-            <Text className=' text-white text-center font-plight'>
-              Don’t have an account?{" "}
-              <Link href="/(auth)/signUp" className='text-gold'>Signup</Link>
-            </Text>
-          </View>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <Layout
+     title='Sign In'
+     btnText='Sign In'
+     btnLink={Onsubmit}
+     bottomLink="/(auth)/signUp"
+     bottomText= " Don't Have an account"
+     btnLinkText='sign up'
+     isloading = {isloading}
+    >
+      <Input placeholder='your unique email' id='email'
+      title='email' handlechange={handlechange} data={userdata.email}/> 
+      <Input placeholder='password'
+        data={userdata.password}
+        title= "password" 
+        id="password"
+        icon={showpassword ? icons.eyeHide : icons.eye} 
+        iconStyle='w-[20px] h-[20px]'
+        toggleshow={toggleshow}
+        handlechange={handlechange}
+        show = {showpassword}
+      />
+      <TouchableOpacity onPress={getCurrentUser} className=' items-end'>
+        <Text className='text-white font-plight font-normal'>Forget password</Text>
+      </TouchableOpacity>
+    </Layout>
   )
 }
 

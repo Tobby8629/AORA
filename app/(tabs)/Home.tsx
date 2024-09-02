@@ -1,11 +1,16 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import Header from '@/components/HomeViews/Header'
 
 const Home = () => {
   return (
-    <View>
-      <Text>Home</Text>
-    </View>
+    <SafeAreaView className='h-full bg-pry_black'>
+      <ScrollView>
+        <View className='h-screen w-[86%] pt-7 mx-auto'>
+          <Header />
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   )
 }
 

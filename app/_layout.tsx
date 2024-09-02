@@ -5,8 +5,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
 import "../global.css"
-import { useColorScheme } from '@/hooks/useColorScheme';
-import { SafeAreaView } from 'react-native';
+import GlobalProvider from '@/context/GlobalProvider';
 
 
 
@@ -36,13 +35,14 @@ export default function RootLayout() {
  if(!loaded && error) return null
 
   return (
-    <>
+    <GlobalProvider>
       <Stack>
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+        {/* <Stack.Screen name='search' options={{ headerShown: false}} /> */}
         <Stack.Screen name="+not-found" />
       </Stack>
-    </>
+    </GlobalProvider>
   );
 }
