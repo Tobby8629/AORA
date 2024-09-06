@@ -35,12 +35,12 @@ export default function RootLayout() {
  if(!loaded && error) return null
 
   return (
-    <GlobalProvider>
+    <GlobalProvider>    
       <Stack>
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-        {/* <Stack.Screen name='search' options={{ headerShown: false}} /> */}
+        <Stack.Screen name= "search/[query]" options={{ headerShown: false}} />
         <Stack.Screen name="+not-found" />
       </Stack>
     </GlobalProvider>

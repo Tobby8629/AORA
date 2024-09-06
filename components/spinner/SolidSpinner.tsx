@@ -1,7 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import { View, Animated, Easing } from 'react-native';
 
-const SolidRoundSpinner = () => {
+interface inter {
+  className?: string 
+}
+
+
+const SolidRoundSpinner = ({className}: inter) => {
   const spinValue = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -28,7 +33,7 @@ const SolidRoundSpinner = () => {
         style={{
           transform: [{ rotate: spin }],
         }}
-        className="w-10 h-10 border-t-2 border-b-2 border-l-2 border-black-500 rounded-full"
+        className={`w-10 h-10 border-t-2 border-b-2 border-l-2 border-black-500 rounded-full ${className}`}
       />
     </View>
   );

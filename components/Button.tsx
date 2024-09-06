@@ -6,12 +6,15 @@ interface button {
     text: string
     handlePress: () => void 
     isloaded?: any
+    className?: string
+    textStyle?: string
+
 }
 
-const Button = ({ text, handlePress,isloaded }: button) => {
+const Button = ({ text, handlePress,isloaded, className, textStyle}: button) => {
   return (
-    <TouchableOpacity onPress={handlePress} className='bg-gold min-h-[58px] my-7 w-full text-gold rounded-lg justify-center items-center'>
-      <Text className=' text-pry_black  text-lg font-semibold  capitalize font-pregular'>
+    <TouchableOpacity onPress={handlePress} className={`bg-gold min-h-[58px] my-7 w-full text-gold rounded-lg justify-center items-center ${className}`}>
+      <Text className={`text-pry_black text-lg font-semibold  capitalize font-pregular ${textStyle}`}>
         {isloaded ? <SolidRoundSpinner /> : text}  
       </Text>
     </TouchableOpacity>
