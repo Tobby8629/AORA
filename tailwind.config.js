@@ -16,6 +16,7 @@ module.exports = {
       },
       colors: {
         "pry_black": "#161622",
+        thick_black: "#1E1E2D",
         semi_black: "#232533",
         gold: "#FFA300",
         whitish_gray: "#CDCDE0",

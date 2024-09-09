@@ -5,7 +5,13 @@ import icons from '@/constants/icons'
 import Button from '../Button'
 import { router } from 'expo-router'
 
-const Empty = () => {
+interface empty {
+  firstText : string
+  secondText: string
+  btnText: string
+}
+
+const Empty = ({firstText,secondText, btnText }: empty) => {
   return (
     <View className=' items-center'>
       <Image 
@@ -13,10 +19,10 @@ const Empty = () => {
         className='w-[270px] h-[216px]'
         resizeMode='contain'
       />
-      <Text className=' font-pregular text-lg font-medium text-white'>No Videos Found</Text>
-      <Text className=' font-pmedium text-white my text-2xl font-semibold my-2'> No Video Uploaded yet </Text>
+      <Text className=' font-pregular text-lg font-medium text-white'>{firstText}</Text>
+      <Text className=' font-pmedium text-white my text-2xl font-semibold my-2'> {secondText} </Text>
       <Button 
-        text= "Upload a Video"
+        text= {btnText}
         handlePress={()=> router.push("/(tabs)/Create")}
         className= "w-4/6"
         textStyle= 'font-pmedium text-xl'

@@ -25,6 +25,12 @@ const Home = () => {
       refresh().finally(() => setRefreshing(false));
     }}
 
+    const [id, setid] = useState("")
+
+    const updateID = (id: string) => {
+      setid((prevID) => (prevID === id ? "" : id))
+    }
+
   return (
     <SafeAreaView className='h-full bg-pry_black '>
       <View className='py-7 px-5'>
@@ -35,7 +41,7 @@ const Home = () => {
         data={post}
         keyExtractor={(item)=> (item?.prompt)}
         renderItem={({item})=>(
-          <AllVideos post={item}/>
+          <AllVideos post={item} updateID={updateID} id={id}/>
 
         )}
         ListHeaderComponent={()=>(
@@ -46,10 +52,12 @@ const Home = () => {
         onScroll={handleScroll}
         onMomentumScrollBegin={handleRefresh}
         ListEmptyComponent={()=>(
-          <Empty />
+          <Empty firstText='No Videos Found' secondText='No Video Uploaded yet' btnText='Upload a Video' />
         )}
         refreshControl={<CustomRefresh refreshing={refreshing} refreshh={handleRefresh} />}
+        showsVerticalScrollIndicator={false}
         /> : null }
+      
      </View>
     </SafeAreaView>
   )
