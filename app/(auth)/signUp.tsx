@@ -7,6 +7,7 @@ import { Link, useRouter } from 'expo-router'
 import icons from '@/constants/icons'
 import Layout from '@/components/Onboarding/Layout'
 import { Register } from '@/lib/AppWrite'
+import { useGlobalContext } from '@/context/GlobalProvider'
 
 const signUp = () => {
   const route = useRouter()
@@ -28,9 +29,10 @@ const signUp = () => {
       return
     }
     try{
-      const submitdata = await Register(userdata.email, userdata.username, userdata.password)
-      if(!submitdata) throw Error
-      route.push("/(tabs)/Home")
+      const submitdata = await Register(userdata.email, userdata.username, userdata.password).then(()=>{
+        const {user,cont} = useGlobalContext()
+        route.push("/(tabs)/Home")
+      }) 
     }
     catch(err:any){
       Alert.alert(err.message)

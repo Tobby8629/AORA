@@ -5,12 +5,14 @@ import icons from '@/constants/icons'
 import { getCurrentUser, Login, Logout, Register } from '@/lib/AppWrite'
 import { Link, useRouter } from 'expo-router'
 import Layout from '@/components/Onboarding/Layout'
+import { useGlobalContext } from '@/context/GlobalProvider'
 
 const signIn = () => {
   const route = useRouter()
   const [userdata, setuserdata] = useState({email:"", password:""})
   const [isloading, setisloading] = useState(false)
   const [showpassword, setshowpassword] = useState(true)
+  const {user,cont} = useGlobalContext()
   
   const toggleshow = () => {
     setshowpassword(!showpassword)
@@ -28,8 +30,11 @@ const signIn = () => {
       return
     }
     try{
-      const submitdata = await Login(userdata.email, userdata.password)
-      submitdata && route.replace("/(tabs)/Home")
+      const submitdata = await Login(userdata.email, userdata.password).then(()=>{
+        cont()
+        route.replace("/(tabs)/Home")
+      })
+     
     }
     catch(err:any){
       Alert.alert(err.message)

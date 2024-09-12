@@ -1,5 +1,6 @@
 import { getCurrentUser } from '@/lib/AppWrite';
-import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react'
+import React, { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react'
+import { useFocusEffect } from 'expo-router'
 
 const globalContext = createContext<any>(null);
 
@@ -29,10 +30,10 @@ const cont = async () => {
   }
 };
 
-
-useEffect(()=>{
+useFocusEffect(useCallback(()=>{
    cont()
-},[])
+},[]))
+
   return (
    <globalContext.Provider value={{
       user,
@@ -40,6 +41,8 @@ useEffect(()=>{
       loading,
       setloading,
       islogged,
+      setislogged,
+      cont
    }}>
      {children}
    </globalContext.Provider>

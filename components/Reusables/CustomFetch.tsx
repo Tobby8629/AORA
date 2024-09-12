@@ -8,10 +8,10 @@ const useCustomFetch = ({fn}: inter) => {
     const [data, setData] = useState<any[]>([]);
     const [loading, setloading] = useState(false)
     const [error, seterror] = useState("") 
-    const getdata = async () => {
+    const getdata = async (val?: any) => {
       setloading(true)
       try{
-        const response = await fn()
+        const response = await fn(val)
         if(response) setData(response)
       }
       catch(err: any) {
@@ -24,8 +24,9 @@ const useCustomFetch = ({fn}: inter) => {
     useEffect(()=>{
       getdata()
     },[])
-    const refresh = async() => {
-     await getdata()
+    
+    const refresh = async( val?: any) => {
+     await getdata(val)
     }
   return {
     data,

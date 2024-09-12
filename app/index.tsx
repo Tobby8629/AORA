@@ -13,9 +13,10 @@ import { useGlobalContext } from '@/context/GlobalProvider';
 
 export default function HomeScreen() {
   const navigate = useRouter()
-  const { user, loading } = useGlobalContext()
+  const { user, loading, islogged } = useGlobalContext()
+  
 
-  if(user?.accountId){ return  (<Redirect href="/(tabs)/Home" />)}
+  if(!loading && islogged ){ return  (<Redirect href="/(tabs)/Home" />)}
   return (
     <SafeAreaView className=' bg-pry_black h-full'>
       <ScrollView>

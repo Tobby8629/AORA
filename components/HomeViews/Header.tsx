@@ -5,14 +5,20 @@ import { useRouter } from 'expo-router'
 import images from '@/constants/images'
 import SearchBar from '../SearchBar'
 
+interface Header {
+  user:{
+    username: string
+  }
+}
 
-const Header = () => {
+
+const Header = ({user}: Header) => {
   return (
     <>
       <View className='flex-row justify-between items-center'>
         <View>
           <Text className='text-white font-pregular text-lg'>Welcome Back</Text>
-          <Text className='text-white font-psemibold text-3xl font-semibold mt-2'>jsmastery</Text>
+          <Text className='text-white font-psemibold text-3xl font-semibold mt-2 capitalize'>{user.username}</Text>
         </View>
         <View>
           <Image 
