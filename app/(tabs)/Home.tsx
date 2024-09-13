@@ -2,7 +2,7 @@ import { Animated, FlatList, Image, NativeScrollEvent, NativeSyntheticEvent, Ref
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import Header from '@/components/HomeViews/Header'
 import useCustomFetch from '@/components/Reusables/CustomFetch'
-import { deletePost, getPosts, GetTrendingVideos } from '@/lib/AppWrite'
+import { deletePost, getPosts, getSaveVideo, GetTrendingVideos, saveVideo } from '@/lib/AppWrite'
 import AllVideos from '@/components/HomeViews/AllVideos'
 import Empty from '@/components/HomeViews/Empty'
 import CustomRefresh from '@/components/spinner/CustomRefresh'
@@ -71,7 +71,7 @@ const Home = () => {
         keyExtractor={(item)=> (item?.prompt)}
         renderItem={({item})=>(
           <AllVideos post={item} updateID={updateID} id={id}>
-            <TouchableOpacity className='flex-row pb-3 items-center font-pregular text-sm capitalize'>
+            <TouchableOpacity onPress={()=>saveVideo({video: id, user: user.$id})} className='flex-row pb-3 items-center font-pregular text-sm capitalize'>
                 <Image 
                   source={icons.bookmark}
                   className=" w-3 h-3"

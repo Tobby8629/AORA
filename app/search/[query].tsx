@@ -1,6 +1,6 @@
-import { FlatList, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Alert, FlatList, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { useLocalSearchParams } from 'expo-router'
+import { router, useLocalSearchParams, usePathname } from 'expo-router'
 import SearchBar from '@/components/SearchBar'
 import useCustomFetch from '@/components/Reusables/CustomFetch'
 import { SearchVideo } from '@/lib/AppWrite'
@@ -16,7 +16,17 @@ const query = () => {
   useEffect(()=>{
     refresh()
   },[query])
+  const getpath = usePathname()
 
+  const handleclick =  async (value?: string) => {
+    if(value==="") {
+      Alert.alert(" No value to query the database")
+      return
+    }
+    else if(getpath.startsWith("/search")) {
+      router.setParams({query: value})
+   } 
+  }
 
   const [id, setid] = useState("")
 
@@ -29,7 +39,7 @@ const query = () => {
       <View className='min-h-screen px-5 py-7'>
         <Text className='text-white font-pregular text-lg'>Search result</Text>
           <Text className='text-white font-psemibold text-3xl font-semibold mt-2'>{query}</Text>
-          <SearchBar searchText={search} />
+          <SearchBar searchText={search} handleclick={handleclick}  />
           {loading ? <SolidRoundSpinner className='border-gold' /> : video?.length <= 0 ? <Empty 
             firstText="No Videos found"  
             secondText={`No Video of ${query} found in database`} 
