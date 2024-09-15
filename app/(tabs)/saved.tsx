@@ -69,7 +69,7 @@ const saved = () => {
             data={savedpost}
             keyExtractor={(item)=>item.$id}
             renderItem={({item}) => <AllVideos post={item} updateID={updateID} id={id}>
-              <TouchableOpacity onPress={() =>handleDelete(id)} className='flex-row pb-3 items-center font-pregular text-sm capitalize'>
+              <TouchableOpacity onPress={() =>handleDelete(id)} className='flex-row items-center font-pregular text-sm capitalize'>
                 <Image
                   source={icons.del}
                   className=" w-3 h-3"

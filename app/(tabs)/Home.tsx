@@ -11,6 +11,7 @@ import SolidRoundSpinner from '@/components/spinner/SolidSpinner'
 import { useFocusEffect } from '@react-navigation/native';
 import { useGlobalContext } from '@/context/GlobalProvider'
 import icons from '@/constants/icons'
+import BookmarkPopup from '@/components/Reusables/Popup'
 
 const Home = () => {
   const {data: post, loading, refresh, error } = useCustomFetch({fn:getPosts})
@@ -18,6 +19,8 @@ const Home = () => {
   const [ refreshing, setRefreshing ] = useState(false)
   const [scrollY, setScrollY] = useState(0); 
   const {user} = useGlobalContext()
+  const [visible, setvisible] = useState(false)
+  const [message, setmessage] = useState("")
   
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     event.nativeEvent.contentOffset.y <= -150 ? setScrollY(event.nativeEvent.contentOffset.y) : setScrollY(0);
@@ -63,10 +66,15 @@ const Home = () => {
   const handleSaveVideo = async (id:string) => {
     try {
       setid('');
-      await saveVideo({video: id, user: user.$id})
+      await saveVideo({video: id, user: user.$id}).then(()=>{
+        setmessage("Bookmarked....")
+        setvisible(true)
+        
+      })
     }
     catch(err: any){
-      Alert.alert("Not allowed", err.message)
+      setvisible(true)
+      setmessage(err.message)
     }
   }
 
@@ -81,22 +89,22 @@ const Home = () => {
         keyExtractor={(item)=> (item?.prompt)}
         renderItem={({item})=>(
           <AllVideos post={item} updateID={updateID} id={id}>
-            <TouchableOpacity onPress={() =>handleSaveVideo(id)} className='flex-row pb-3 items-center font-pregular text-sm capitalize'>
-                <Image 
-                  source={icons.bookmark}
-                  className=" w-3 h-3"
-                  resizeMode='contain'
-                />
-                <Text className='font-pregular text-sm capitalize ml-2 text-white'>Save</Text>
-            </TouchableOpacity>
-            <TouchableOpacity className='flex-row pb-3 items-center font-pregular text-sm capitalize'>
-                <Image 
-                  source={icons.del}
-                  className=" w-3 h-3"
-                  resizeMode='contain'
-                />
-                <Text className='font-pregular text-sm capitalize ml-2 text-white'>delete</Text>
-            </TouchableOpacity>
+          <TouchableOpacity onPress={() =>handleSaveVideo(id)} className='flex-row pb-3 items-center font-pregular text-sm capitalize'>
+            <Image 
+              source={icons.bookmark}
+              className=" w-3 h-3"
+              resizeMode='contain'
+            />
+            <Text className='font-pregular text-sm capitalize ml-2 text-white'>Save</Text>
+          </TouchableOpacity>
+          <TouchableOpacity className='flex-row pb-3 items-center font-pregular text-sm capitalize'>
+            <Image 
+              source={icons.del}
+              className=" w-3 h-3"
+              resizeMode='contain'
+            />
+            <Text className='font-pregular text-sm capitalize ml-2 text-white'>delete</Text>
+          </TouchableOpacity>
           </AllVideos>
         )}
         ListHeaderComponent={trend.length > 0 ? MemoizedHeader : null}
@@ -107,9 +115,9 @@ const Home = () => {
         )}
         refreshControl={<CustomRefresh refreshing={refreshing} refreshh={handleRefresh} />}
         showsVerticalScrollIndicator={false}
-        /> : null }
-      
+        /> : null } 
      </View>
+     <BookmarkPopup message={message} visible={visible} setmessage={setmessage} setvisible={setvisible}/>
     </SafeAreaView>
   )
 }
