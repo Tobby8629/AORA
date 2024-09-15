@@ -1,4 +1,4 @@
-import { Animated, FlatList, Image, NativeScrollEvent, NativeSyntheticEvent, RefreshControl, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Alert, Animated, FlatList, Image, NativeScrollEvent, NativeSyntheticEvent, RefreshControl, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import Header from '@/components/HomeViews/Header'
 import useCustomFetch from '@/components/Reusables/CustomFetch'
@@ -38,7 +38,7 @@ const Home = () => {
     };
 
     fetchPosts();
-  
+    setid("")
   },[post]))
 
   
@@ -60,6 +60,16 @@ const Home = () => {
     </View>
   ), [trend]);
 
+  const handleSaveVideo = async (id:string) => {
+    try {
+      setid('');
+      await saveVideo({video: id, user: user.$id})
+    }
+    catch(err: any){
+      Alert.alert("Not allowed", err.message)
+    }
+  }
+
   return (
     <SafeAreaView className='h-full bg-pry_black '>
       <View className='mb-52 p-5'>
@@ -71,7 +81,7 @@ const Home = () => {
         keyExtractor={(item)=> (item?.prompt)}
         renderItem={({item})=>(
           <AllVideos post={item} updateID={updateID} id={id}>
-            <TouchableOpacity onPress={()=>saveVideo({video: id, user: user.$id})} className='flex-row pb-3 items-center font-pregular text-sm capitalize'>
+            <TouchableOpacity onPress={() =>handleSaveVideo(id)} className='flex-row pb-3 items-center font-pregular text-sm capitalize'>
                 <Image 
                   source={icons.bookmark}
                   className=" w-3 h-3"

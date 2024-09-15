@@ -30,7 +30,6 @@ const signUp = () => {
     }
     try{
       const submitdata = await Register(userdata.email, userdata.username, userdata.password).then(()=>{
-        const {user,cont} = useGlobalContext()
         route.push("/(tabs)/Home")
       }) 
     }

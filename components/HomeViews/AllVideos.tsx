@@ -76,7 +76,7 @@ const AllVideos = ({post, updateID, id, children}: video) => {
     </View>
     
     {id == post?.$id ? 
-      <View className='absolute px-4 py-3 bg-thick_black w-[100px] top-[50px] right-[10px] h-[64px] rounded-[5px]'>
+      <View className='absolute px-4 py-3 bg-thick_black w-[100px] top-[50px] right-[10px] h-fit rounded-[5px]'>
         {children}
       </View> : null }
   </>

@@ -32,6 +32,7 @@ const profile = () => {
     };
 
     fetchPosts();
+    setid("")
   
   },[post]))
 
@@ -65,7 +66,7 @@ const profile = () => {
                 />
                 <Text className='font-pregular text-sm capitalize ml-2 text-white'>Save</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={()=>deletee(id)} className='flex-row pb-3 items-center font-pregular text-sm capitalize'>
+            <TouchableOpacity onPress={()=>deletee(id)} className='flex-row items-center font-pregular text-sm capitalize'>
                 <Image 
                   source={icons.del}
                   className=" w-3 h-3"
@@ -76,6 +77,7 @@ const profile = () => {
           </AllVideos>
         )}
         ListEmptyComponent={()=> <Empty firstText='No video found' secondText='No Video found for this profile' btnText=' Back to Explore'/>}
+        showsVerticalScrollIndicator={false}
        />
       }
       </View>
